@@ -39,7 +39,7 @@
     </script>
 
     <style>
-        /* --- 1. FONDO Y ESTRELLAS (Imposible de hacer solo con clases Tailwind) --- */
+        /* --- 1. FONDO Y ESTRELLAS --- */
         body {
             background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
             overflow-x: hidden;
@@ -53,15 +53,12 @@
             z-index: -1; background: transparent; overflow: hidden; pointer-events: none;
         }
 
-        /* Capa 1 */
         #stars { width: 1px; height: 1px; animation: animStar 50s linear infinite; box-shadow: 1744px 122px #FFF, 134px 1321px #FFF, 92px 859px #FFF, 1694px 571px #FFF, 1888px 338px #FFF, 895px 1017px #FFF, 1551px 712px #FFF, 458px 938px #FFF, 120px 1478px #FFF, 1782px 1001px #FFF, 1349px 24px #FFF, 620px 482px #FFF, 1911px 871px #FFF, 401px 1198px #FFF, 1621px 421px #FFF, 812px 124px #FFF, 1478px 1293px #FFF, 13px 764px #FFF, 715px 1445px #FFF, 1266px 832px #FFF, 981px 176px #FFF, 243px 561px #FFF, 1856px 1329px #FFF, 517px 298px #FFF; }
         #stars::after { content: " "; position: absolute; top: 2000px; width: 1px; height: 1px; box-shadow: inherit; }
         
-        /* Capa 2 */
         #stars2 { width: 2px; height: 2px; animation: animStar 100s linear infinite; box-shadow: 123px 561px #FFF, 1782px 1293px #FFF, 567px 938px #FFF, 1421px 24px #FFF, 91px 1017px #FFF, 1551px 338px #FFF, 785px 871px #FFF, 243px 1321px #FFF, 1856px 124px #FFF, 1102px 482px #FFF, 620px 1478px #FFF, 1349px 764px #FFF; }
         #stars2::after { content: " "; position: absolute; top: 2000px; width: 2px; height: 2px; box-shadow: inherit; }
 
-        /* Capa 3 */
         #stars3 { width: 3px; height: 3px; animation: animStar 150s linear infinite; box-shadow: 620px 124px #FFF, 1349px 1329px #FFF, 123px 871px #FFF, 1782px 338px #FFF; }
         #stars3::after { content: " "; position: absolute; top: 2000px; width: 3px; height: 3px; box-shadow: inherit; }
 
@@ -85,10 +82,9 @@
         .cursor-type { display: inline-block; width: 2px; height: 1.2em; background-color: #bf00ff; margin-left: 5px; animation: blink-text 1s infinite; vertical-align: middle; margin-bottom: 4px; }
         @keyframes blink-text { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
         
-        /* Lang Switch Active State */
         .lang-btn.active { border-color: #bf00ff; color: #bf00ff; box-shadow: 0 0 10px rgba(191, 0, 255, 0.4); }
 
-        /* --- 4. CARRUSEL 3D (Lógica compleja mantenida en CSS) --- */
+        /* --- 4. CARRUSEL 3D --- */
         .carousel-3d-wrapper { perspective: 1000px; height: 480px; display: flex; justify-content: center; align-items: center; }
         .carousel-track { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; display: flex; justify-content: center; align-items: center; }
         
@@ -100,17 +96,34 @@
             box-shadow: 0 15px 35px rgba(0,0,0,0.5); opacity: 0;
         }
 
-        /* Estados 3D */
         .project-card.active { transform: translateX(0) scale(1) translateZ(100px); z-index: 10; opacity: 1; border-color: #bf00ff; box-shadow: 0 0 30px rgba(191, 0, 255, 0.2); }
         .project-card.prev { transform: translateX(-60%) scale(0.8) translateZ(-100px) rotateY(15deg); z-index: 5; opacity: 0.5; filter: blur(2px) brightness(0.7); pointer-events: none; }
         .project-card.next { transform: translateX(60%) scale(0.8) translateZ(-100px) rotateY(-15deg); z-index: 5; opacity: 0.5; filter: blur(2px) brightness(0.7); pointer-events: none; }
 
-        /* Ajustes Mobile para Carrusel */
+        /* --- 5. MENÚ MÓVIL ESTILIZADO --- */
         @media (max-width: 768px) {
             .project-card { width: 85%; height: 440px; }
             .carousel-3d-wrapper { height: 480px; }
             * { cursor: auto !important; }
             .cursor-dot, .cursor-outline { display: none; }
+
+            .nav-links {
+                position: fixed; top: 0; left: 0;
+                width: 100%; height: 100vh;
+                background: rgba(0, 0, 0, 0.85); /* Fondo oscuro transparente */
+                backdrop-filter: blur(8px); /* Efecto cristal */
+                flex-direction: column; justify-content: center; align-items: center; gap: 30px;
+                z-index: 40; opacity: 0; pointer-events: none; transform: translateY(-20px);
+                transition: all 0.3s ease;
+            }
+            .nav-links.active { opacity: 1; pointer-events: auto; transform: translateY(0); display: flex !important; }
+            .nav-links li a { font-size: 1.5rem; color: white; }
+            
+            /* Animación Barras */
+            .menu-toggle.active .bar:nth-child(2) { opacity: 0; }
+            .menu-toggle.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+            .menu-toggle.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+            .bar { transition: 0.3s; }
         }
     </style>
 </head>
@@ -190,7 +203,6 @@
             <h2 class="text-4xl font-bold mb-10 text-center" data-i18n="nav-stack">Tech Stack</h2>
             
             <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-10">
-                
                 <div class="skill-card hover-target bg-card-bg p-6 rounded-2xl text-center border border-white/5 transition-all duration-300 hover:border-white/20 hover:-translate-y-2 hover:bg-white/5 group">
                     <i class="devicon-angularjs-plain colored text-5xl mb-4 block filter grayscale transition-all duration-300 group-hover:grayscale-0 group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]"></i>
                     <span class="text-sm text-muted group-hover:text-white transition-colors">Angular</span>
@@ -245,15 +257,15 @@
                     
                     <article class="project-card active" data-index="0">
                         <div class="h-[180px] w-full" style="background: linear-gradient(135deg, #dd0031 0%, #1976d2 100%);"></div>
-                        <div class="p-6 flex flex-col h-[calc(100%-180px)]">
-                            <h3 class="text-xl font-bold mb-2 text-white" data-i18n="proj-1-title">CRM Empresarial Full Stack</h3>
-                            <p class="text-muted text-sm mb-4 flex-grow" data-i18n="proj-1-desc">Sistema de gestión empresarial completo.</p>
-                            <div class="mb-4">
-                                <span class="bg-white/10 px-3 py-1 rounded-full text-xs mr-2 text-accent font-semibold inline-block mb-1">Angular 20</span>
-                                <span class="bg-white/10 px-3 py-1 rounded-full text-xs mr-2 text-accent font-semibold inline-block mb-1">Spring Boot</span>
-                                <span class="bg-white/10 px-3 py-1 rounded-full text-xs mr-2 text-accent font-semibold inline-block mb-1">Java 21</span>
+                        <div class="project-info p-5 px-12 md:px-6 flex flex-col h-[calc(100%-180px)]">
+                            <h3 class="text-xl font-bold mb-1 text-white leading-tight" data-i18n="proj-1-title">CRM Empresarial Full Stack</h3>
+                            <p class="text-muted text-sm mb-2 flex-grow leading-snug" data-i18n="proj-1-desc">Sistema de gestión empresarial completo.</p>
+                            <div class="mb-3 flex flex-wrap gap-1 justify-center md:justify-start">
+                                <span class="bg-white/10 px-2 py-1 rounded-full text-[0.65rem] text-accent font-semibold">Angular 17</span>
+                                <span class="bg-white/10 px-2 py-1 rounded-full text-[0.65rem] text-accent font-semibold">Spring Boot</span>
+                                <span class="bg-white/10 px-2 py-1 rounded-full text-[0.65rem] text-accent font-semibold">Java 21</span>
                             </div>
-                            <a href="#" target="_blank" class="btn-github hover-target w-full flex items-center justify-center gap-2 py-2 border border-white/20 rounded-lg text-white text-sm font-semibold transition-all duration-300 hover:border-accent hover:bg-accent/10 hover:shadow-[0_0_15px_rgba(191,0,255,0.4)]">
+                            <a href="#" target="_blank" class="mt-auto btn-github hover-target w-full flex items-center justify-center gap-2 py-2 border border-white/20 rounded-lg text-white text-sm font-semibold transition-all duration-300 hover:border-accent hover:bg-accent/10 hover:shadow-[0_0_15px_rgba(191,0,255,0.4)]">
                                 <i class="devicon-github-original text-lg"></i> <span data-i18n="btn-code">Ver Código</span>
                             </a>
                         </div>
@@ -261,15 +273,15 @@
 
                     <article class="project-card next" data-index="1">
                         <div class="h-[180px] w-full" style="background: linear-gradient(135deg, #000000 0%, #a3a3a3 100%);"></div>
-                        <div class="p-6 flex flex-col h-[calc(100%-180px)]">
-                            <h3 class="text-xl font-bold mb-2 text-white" data-i18n="proj-2-title">Interacción Digital 3D</h3>
-                            <p class="text-muted text-sm mb-4 flex-grow" data-i18n="proj-2-desc">Ambientación tridimensional e interactiva.</p>
-                            <div class="mb-4">
-                                <span class="bg-white/10 px-3 py-1 rounded-full text-xs mr-2 text-accent font-semibold inline-block mb-1">Unity</span>
-                                <span class="bg-white/10 px-3 py-1 rounded-full text-xs mr-2 text-accent font-semibold inline-block mb-1">C#</span>
-                                <span class="bg-white/10 px-3 py-1 rounded-full text-xs mr-2 text-accent font-semibold inline-block mb-1">Blender</span>
+                        <div class="project-info p-5 px-12 md:px-6 flex flex-col h-[calc(100%-180px)]">
+                            <h3 class="text-xl font-bold mb-1 text-white leading-tight" data-i18n="proj-2-title">Interacción Digital 3D</h3>
+                            <p class="text-muted text-sm mb-2 flex-grow leading-snug" data-i18n="proj-2-desc">Ambientación tridimensional e interactiva.</p>
+                            <div class="mb-3 flex flex-wrap gap-1 justify-center md:justify-start">
+                                <span class="bg-white/10 px-2 py-1 rounded-full text-[0.65rem] text-accent font-semibold">Unity</span>
+                                <span class="bg-white/10 px-2 py-1 rounded-full text-[0.65rem] text-accent font-semibold">C#</span>
+                                <span class="bg-white/10 px-2 py-1 rounded-full text-[0.65rem] text-accent font-semibold">Blender</span>
                             </div>
-                            <a href="#" target="_blank" class="btn-github hover-target w-full flex items-center justify-center gap-2 py-2 border border-white/20 rounded-lg text-white text-sm font-semibold transition-all duration-300 hover:border-accent hover:bg-accent/10 hover:shadow-[0_0_15px_rgba(191,0,255,0.4)]">
+                            <a href="#" target="_blank" class="mt-auto btn-github hover-target w-full flex items-center justify-center gap-2 py-2 border border-white/20 rounded-lg text-white text-sm font-semibold transition-all duration-300 hover:border-accent hover:bg-accent/10 hover:shadow-[0_0_15px_rgba(191,0,255,0.4)]">
                                 <i class="devicon-github-original text-lg"></i> <span data-i18n="btn-code">Ver Código</span>
                             </a>
                         </div>
@@ -277,15 +289,15 @@
 
                     <article class="project-card prev" data-index="2">
                         <div class="h-[180px] w-full" style="background: linear-gradient(135deg, #2496ED 0%, #232F3E 100%);"></div>
-                        <div class="p-6 flex flex-col h-[calc(100%-180px)]">
-                            <h3 class="text-xl font-bold mb-2 text-white" data-i18n="proj-3-title">API REST Cloud</h3>
-                            <p class="text-muted text-sm mb-4 flex-grow" data-i18n="proj-3-desc">Microservicios desplegados en AWS con Docker.</p>
-                            <div class="mb-4">
-                                <span class="bg-white/10 px-3 py-1 rounded-full text-xs mr-2 text-accent font-semibold inline-block mb-1">Docker</span>
-                                <span class="bg-white/10 px-3 py-1 rounded-full text-xs mr-2 text-accent font-semibold inline-block mb-1">AWS</span>
-                                <span class="bg-white/10 px-3 py-1 rounded-full text-xs mr-2 text-accent font-semibold inline-block mb-1">MySQL</span>
+                        <div class="project-info p-5 px-12 md:px-6 flex flex-col h-[calc(100%-180px)]">
+                            <h3 class="text-xl font-bold mb-1 text-white leading-tight" data-i18n="proj-3-title">API REST Cloud</h3>
+                            <p class="text-muted text-sm mb-2 flex-grow leading-snug" data-i18n="proj-3-desc">Microservicios desplegados en AWS con Docker.</p>
+                            <div class="mb-3 flex flex-wrap gap-1 justify-center md:justify-start">
+                                <span class="bg-white/10 px-2 py-1 rounded-full text-[0.65rem] text-accent font-semibold">Docker</span>
+                                <span class="bg-white/10 px-2 py-1 rounded-full text-[0.65rem] text-accent font-semibold">AWS</span>
+                                <span class="bg-white/10 px-2 py-1 rounded-full text-[0.65rem] text-accent font-semibold">MySQL</span>
                             </div>
-                            <a href="#" target="_blank" class="btn-github hover-target w-full flex items-center justify-center gap-2 py-2 border border-white/20 rounded-lg text-white text-sm font-semibold transition-all duration-300 hover:border-accent hover:bg-accent/10 hover:shadow-[0_0_15px_rgba(191,0,255,0.4)]">
+                            <a href="#" target="_blank" class="mt-auto btn-github hover-target w-full flex items-center justify-center gap-2 py-2 border border-white/20 rounded-lg text-white text-sm font-semibold transition-all duration-300 hover:border-accent hover:bg-accent/10 hover:shadow-[0_0_15px_rgba(191,0,255,0.4)]">
                                 <i class="devicon-github-original text-lg"></i> <span data-i18n="btn-code">Ver Código</span>
                             </a>
                         </div>
@@ -308,7 +320,7 @@
 
             <div class="socials mb-8 flex justify-center gap-8">
                 <a href="https://github.com/PabloRP06" target="_blank" class="hover-target text-lg text-muted transition-colors hover:text-accent">GitHub</a>
-                <a href="#" class="hover-target text-lg text-muted transition-colors hover:text-accent">LinkedIn</a>
+                <a href="https://www.linkedin.com/in/pablo-roncero-737334332/" class="hover-target text-lg text-muted transition-colors hover:text-accent">LinkedIn</a>
             </div>
             
             <p class="text-sm text-muted">© 2026 Pablo Roncero Pizarro.</p>

@@ -18,7 +18,7 @@ const translations = {
         "proj-3-title": "API REST Cloud",
         "proj-3-desc": "Microservicios escalables desplegados en AWS con contenedores Docker.",
         "footer-title": "Hablemos",
-        "btn-code": "Ver Código" // NUEVO
+        "btn-code": "Ver Código"
     },
     en: {
         "nav-bio": "Profile",
@@ -38,7 +38,7 @@ const translations = {
         "proj-3-title": "Cloud REST API",
         "proj-3-desc": "Scalable microservices deployed on AWS using Docker containers.",
         "footer-title": "Let's Talk",
-        "btn-code": "View Code" // NUEVO
+        "btn-code": "View Code"
     },
     de: {
         "nav-bio": "Profil",
@@ -58,7 +58,7 @@ const translations = {
         "proj-3-title": "Cloud REST API",
         "proj-3-desc": "Skalierbare Microservices, die mit Docker auf AWS bereitgestellt werden.",
         "footer-title": "Kontakt",
-        "btn-code": "Code ansehen" // NUEVO
+        "btn-code": "Code ansehen"
     },
     fr: {
         "nav-bio": "Profil",
@@ -78,7 +78,7 @@ const translations = {
         "proj-3-title": "API REST Cloud",
         "proj-3-desc": "Microservices évolutifs déployés sur AWS à l'aide de conteneurs Docker.",
         "footer-title": "Contactez-moi",
-        "btn-code": "Voir le code" // NUEVO
+        "btn-code": "Voir le code"
     }
 };
 
@@ -180,21 +180,36 @@ function type() {
 }
 document.addEventListener('DOMContentLoaded', type);
 
-// --- 7. LOGICA DEL CARRUSEL 3D ---
+// --- 7. MENÚ MÓVIL LOGIC (NUEVO) ---
+const menuToggle = document.getElementById('mobile-menu');
+const navLinks = document.querySelector('.nav-links');
+const navLinkItems = document.querySelectorAll('.nav-links a');
+
+// Abrir/Cerrar menú
+menuToggle.addEventListener('click', () => {
+    navLinks.classList.toggle('active');
+    menuToggle.classList.toggle('active');
+});
+
+// Cerrar al pulsar un enlace
+navLinkItems.forEach(link => {
+    link.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+        menuToggle.classList.remove('active');
+    });
+});
+
+
+// --- 8. LOGICA DEL CARRUSEL 3D ---
 const cards = document.querySelectorAll('.project-card');
 const prevBtn = document.getElementById('prevBtn');
 const nextBtn = document.getElementById('nextBtn');
 let currentIndex = 0;
 
-// Inicializar posiciones
 function updateCarousel() {
     cards.forEach((card, index) => {
-        // Limpiamos clases
+        // Reset classes
         card.className = 'project-card hover-target';
-        
-        // Calculamos la posición relativa
-        // Si tenemos 3 tarjetas (indices 0, 1, 2)
-        // Si currentIndex = 0: Active=0, Next=1, Prev=2
         
         if (index === currentIndex) {
             card.classList.add('active');
@@ -203,13 +218,11 @@ function updateCarousel() {
         } else if (index === (currentIndex - 1 + cards.length) % cards.length) {
             card.classList.add('prev');
         } else {
-            // Si hubiera más de 3 cartas, las ocultamos
             card.style.opacity = '0';
         }
     });
 }
 
-// Event Listeners
 nextBtn.addEventListener('click', () => {
     currentIndex = (currentIndex + 1) % cards.length;
     updateCarousel();
@@ -220,5 +233,4 @@ prevBtn.addEventListener('click', () => {
     updateCarousel();
 });
 
-// Inicializar al cargar
 updateCarousel();
