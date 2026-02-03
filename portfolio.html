@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pablo Roncero Pizarro | Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type='text/css' href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        deep: '#050505',
+                        accent: '#bf00ff',
+                        'accent-glow': 'rgba(191, 0, 255, 0.4)',
+                        text: '#ffffff',
+                        muted: '#94a3b8',
+                        'card-bg': 'rgba(255, 255, 255, 0.05)',
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-up': 'fadeUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards',
+                    },
+                    keyframes: {
+                        fadeUp: {
+                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* --- 1. FONDO Y ESTRELLAS (Imposible de hacer solo con clases Tailwind) --- */
+        body {
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+            overflow-x: hidden;
+            cursor: none; /* Ocultamos cursor nativo */
+        }
+
+        @keyframes animStar { from { transform: translateY(0px); } to { transform: translateY(-2000px); } }
+        
+        #stars, #stars2, #stars3 {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; background: transparent; overflow: hidden; pointer-events: none;
+        }
+
+        /* Capa 1 */
+        #stars { width: 1px; height: 1px; animation: animStar 50s linear infinite; box-shadow: 1744px 122px #FFF, 134px 1321px #FFF, 92px 859px #FFF, 1694px 571px #FFF, 1888px 338px #FFF, 895px 1017px #FFF, 1551px 712px #FFF, 458px 938px #FFF, 120px 1478px #FFF, 1782px 1001px #FFF, 1349px 24px #FFF, 620px 482px #FFF, 1911px 871px #FFF, 401px 1198px #FFF, 1621px 421px #FFF, 812px 124px #FFF, 1478px 1293px #FFF, 13px 764px #FFF, 715px 1445px #FFF, 1266px 832px #FFF, 981px 176px #FFF, 243px 561px #FFF, 1856px 1329px #FFF, 517px 298px #FFF; }
+        #stars::after { content: " "; position: absolute; top: 2000px; width: 1px; height: 1px; box-shadow: inherit; }
+        
+        /* Capa 2 */
+        #stars2 { width: 2px; height: 2px; animation: animStar 100s linear infinite; box-shadow: 123px 561px #FFF, 1782px 1293px #FFF, 567px 938px #FFF, 1421px 24px #FFF, 91px 1017px #FFF, 1551px 338px #FFF, 785px 871px #FFF, 243px 1321px #FFF, 1856px 124px #FFF, 1102px 482px #FFF, 620px 1478px #FFF, 1349px 764px #FFF; }
+        #stars2::after { content: " "; position: absolute; top: 2000px; width: 2px; height: 2px; box-shadow: inherit; }
+
+        /* Capa 3 */
+        #stars3 { width: 3px; height: 3px; animation: animStar 150s linear infinite; box-shadow: 620px 124px #FFF, 1349px 1329px #FFF, 123px 871px #FFF, 1782px 338px #FFF; }
+        #stars3::after { content: " "; position: absolute; top: 2000px; width: 3px; height: 3px; box-shadow: inherit; }
+
+        /* --- 2. CURSOR PERSONALIZADO --- */
+        .cursor-dot {
+            width: 6px; height: 6px; background-color: #bf00ff;
+            position: fixed; border-radius: 50%; z-index: 9999; pointer-events: none;
+            transform: translate(-50%, -50%);
+        }
+        .cursor-outline {
+            width: 35px; height: 35px; border: 2px solid #bf00ff;
+            position: fixed; border-radius: 50%; z-index: 9998; pointer-events: none;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, background-color 0.3s;
+            box-shadow: 0 0 15px rgba(191, 0, 255, 0.4);
+        }
+        body.hovering .cursor-outline { width: 15px; height: 15px; background-color: #bf00ff; border-width: 0; opacity: 0.8; }
+
+        /* --- 3. ANIMACIONES Y UTILIDADES EXTRA --- */
+        .reveal-item { opacity: 0; transform: translateY(50px); transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        .cursor-type { display: inline-block; width: 2px; height: 1.2em; background-color: #bf00ff; margin-left: 5px; animation: blink-text 1s infinite; vertical-align: middle; margin-bottom: 4px; }
+        @keyframes blink-text { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        
+        /* Lang Switch Active State */
+        .lang-btn.active { border-color: #bf00ff; color: #bf00ff; box-shadow: 0 0 10px rgba(191, 0, 255, 0.4); }
+
+        /* --- 4. CARRUSEL 3D (Lógica compleja mantenida en CSS) --- */
+        .carousel-3d-wrapper { perspective: 1000px; height: 480px; display: flex; justify-content: center; align-items: center; }
+        .carousel-track { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; display: flex; justify-content: center; align-items: center; }
+        
+        .project-card {
+            background: #111; border-radius: 20px; overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1); position: absolute;
+            width: 350px; height: 460px;
+            transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5); opacity: 0;
+        }
+
+        /* Estados 3D */
+        .project-card.active { transform: translateX(0) scale(1) translateZ(100px); z-index: 10; opacity: 1; border-color: #bf00ff; box-shadow: 0 0 30px rgba(191, 0, 255, 0.2); }
+        .project-card.prev { transform: translateX(-60%) scale(0.8) translateZ(-100px) rotateY(15deg); z-index: 5; opacity: 0.5; filter: blur(2px) brightness(0.7); pointer-events: none; }
+        .project-card.next { transform: translateX(60%) scale(0.8) translateZ(-100px) rotateY(-15deg); z-index: 5; opacity: 0.5; filter: blur(2px) brightness(0.7); pointer-events: none; }
+
+        /* Ajustes Mobile para Carrusel */
+        @media (max-width: 768px) {
+            .project-card { width: 85%; height: 440px; }
+            .carousel-3d-wrapper { height: 480px; }
+            * { cursor: auto !important; }
+            .cursor-dot, .cursor-outline { display: none; }
+        }
+    </style>
+</head>
+
+<body class="font-inter text-text min-h-screen selection:bg-accent selection:text-white">
+
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>
+
+    <div class="cursor-dot" data-cursor-dot></div>
+    <div class="cursor-outline" data-cursor-outline></div>
+
+    <nav class="navbar fixed w-full top-0 z-50 py-5 bg-black/70 backdrop-blur-md border-b border-white/10">
+        <div class="container mx-auto px-6 flex justify-between items-center max-w-6xl">
+            <a href="#" class="logo hover-target text-2xl font-black tracking-tight text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">Portfolio</a>
+
+            <div class="flex items-center gap-4">
+                <div class="flex gap-2 mr-4">
+                    <button onclick="changeLanguage('es')" class="lang-btn hover-target active bg-transparent border border-white/20 text-muted px-2 py-1 text-xs rounded transition-all hover:border-accent hover:text-accent hover:shadow-[0_0_10px_rgba(191,0,255,0.4)]" id="btn-es">ES</button>
+                    <button onclick="changeLanguage('en')" class="lang-btn hover-target bg-transparent border border-white/20 text-muted px-2 py-1 text-xs rounded transition-all hover:border-accent hover:text-accent hover:shadow-[0_0_10px_rgba(191,0,255,0.4)]" id="btn-en">EN</button>
+                    <button onclick="changeLanguage('de')" class="lang-btn hover-target bg-transparent border border-white/20 text-muted px-2 py-1 text-xs rounded transition-all hover:border-accent hover:text-accent hover:shadow-[0_0_10px_rgba(191,0,255,0.4)]" id="btn-de">DE</button>
+                    <button onclick="changeLanguage('fr')" class="lang-btn hover-target bg-transparent border border-white/20 text-muted px-2 py-1 text-xs rounded transition-all hover:border-accent hover:text-accent hover:shadow-[0_0_10px_rgba(191,0,255,0.4)]" id="btn-fr">FR</button>
+                </div>
+
+                <div class="menu-toggle hover-target md:hidden flex flex-col gap-1.5 w-8 cursor-pointer" id="mobile-menu">
+                    <span class="bar h-0.5 w-full bg-white"></span>
+                    <span class="bar h-0.5 w-full bg-white"></span>
+                    <span class="bar h-0.5 w-full bg-white"></span>
+                </div>
+
+                <ul class="nav-links hidden md:flex gap-10">
+                    <li><a href="#bio" class="hover-target text-sm font-medium text-muted hover:text-accent hover:drop-shadow-[0_0_10px_rgba(191,0,255,0.4)] transition-colors" data-i18n="nav-bio">Perfil</a></li>
+                    <li><a href="#skills" class="hover-target text-sm font-medium text-muted hover:text-accent hover:drop-shadow-[0_0_10px_rgba(191,0,255,0.4)] transition-colors" data-i18n="nav-stack">Stack</a></li>
+                    <li><a href="#proyectos" class="hover-target text-sm font-medium text-muted hover:text-accent hover:drop-shadow-[0_0_10px_rgba(191,0,255,0.4)] transition-colors" data-i18n="nav-projects">Proyectos</a></li>
+                    <li><a href="#contacto" class="btn-contact hover-target text-sm font-medium text-muted hover:text-accent hover:drop-shadow-[0_0_10px_rgba(191,0,255,0.4)] transition-colors" data-i18n="nav-contact">Contacto</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero pt-44 pb-24 text-center">
+        <div class="container mx-auto px-6 max-w-6xl flex flex-col items-center">
+            <div class="profile-wrapper opacity-0 animate-fade-up mb-6">
+                <img src="Captura de pantalla 2026-01-29 121517.png" alt="Pablo Roncero Pizarro" class="w-36 h-36 rounded-full border-4 border-accent object-cover shadow-[0_0_30px_rgba(191,0,255,0.4)]">
+            </div>
+
+            <h1 class="text-5xl md:text-6xl font-extrabold tracking-tighter mb-4 leading-none opacity-0 animate-fade-up [animation-delay:0.1s]">Pablo Roncero Pizarro</h1>
+
+            <p class="subtitle text-xl md:text-2xl text-muted font-light mb-8 opacity-0 animate-fade-up [animation-delay:0.2s]">
+                <span data-i18n="hero-role-prefix">Desarrollador</span>
+                <span class="typewriter-text font-semibold text-accent"></span><span class="cursor-type">|</span>
+            </p>
+
+            <p class="intro-text max-w-2xl mx-auto text-muted text-lg mb-12 opacity-0 animate-fade-up [animation-delay:0.3s]" data-i18n="hero-desc">
+                Estudiante apasionado con base sólida en desarrollo Full-Stack, Java y entornos Cloud.
+            </p>
+
+            <div class="opacity-0 animate-fade-up [animation-delay:0.4s]">
+                <a href="#proyectos" class="btn btn-hero hover-target inline-block px-10 py-4 rounded-full bg-white text-deep font-bold transition-all duration-300 hover:scale-105 hover:bg-accent hover:shadow-[0_0_30px_rgba(191,0,255,0.4)]" data-i18n="hero-btn">Ver Proyectos</a>
+            </div>
+        </div>
+    </header>
+
+    <section id="bio" class="section py-24 reveal-item">
+        <div class="container mx-auto px-6 max-w-4xl text-center">
+            <h2 class="text-4xl font-bold mb-10" data-i18n="section-bio">Sobre mí</h2>
+            <p class="text-lg text-muted leading-relaxed" data-i18n="bio-text">
+                Actualmente cursando el Grado Superior de DAM en el Instituto Nebrija. Mi enfoque es el aprendizaje
+                continuo y la resolución de desafíos técnicos en entornos bilingües.
+            </p>
+        </div>
+    </section>
+
+    <section id="skills" class="section py-24 reveal-item">
+        <div class="container mx-auto px-6 max-w-6xl">
+            <h2 class="text-4xl font-bold mb-10 text-center" data-i18n="nav-stack">Tech Stack</h2>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-10">
+                
+                <div class="skill-card hover-target bg-card-bg p-6 rounded-2xl text-center border border-white/5 transition-all duration-300 hover:border-white/20 hover:-translate-y-2 hover:bg-white/5 group">
+                    <i class="devicon-angularjs-plain colored text-5xl mb-4 block filter grayscale transition-all duration-300 group-hover:grayscale-0 group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]"></i>
+                    <span class="text-sm text-muted group-hover:text-white transition-colors">Angular</span>
+                </div>
+                
+                <div class="skill-card hover-target bg-card-bg p-6 rounded-2xl text-center border border-white/5 transition-all duration-300 hover:border-white/20 hover:-translate-y-2 hover:bg-white/5 group">
+                    <i class="devicon-spring-plain colored text-5xl mb-4 block filter grayscale transition-all duration-300 group-hover:grayscale-0 group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]"></i>
+                    <span class="text-sm text-muted group-hover:text-white transition-colors">Spring Boot</span>
+                </div>
+
+                <div class="skill-card hover-target bg-card-bg p-6 rounded-2xl text-center border border-white/5 transition-all duration-300 hover:border-white/20 hover:-translate-y-2 hover:bg-white/5 group">
+                    <i class="devicon-java-plain colored text-5xl mb-4 block filter grayscale transition-all duration-300 group-hover:grayscale-0 group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]"></i>
+                    <span class="text-sm text-muted group-hover:text-white transition-colors">Java</span>
+                </div>
+
+                <div class="skill-card hover-target bg-card-bg p-6 rounded-2xl text-center border border-white/5 transition-all duration-300 hover:border-white/20 hover:-translate-y-2 hover:bg-white/5 group">
+                    <i class="devicon-mysql-plain colored text-5xl mb-4 block filter grayscale transition-all duration-300 group-hover:grayscale-0 group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]"></i>
+                    <span class="text-sm text-muted group-hover:text-white transition-colors">MySQL</span>
+                </div>
+
+                <div class="skill-card hover-target bg-card-bg p-6 rounded-2xl text-center border border-white/5 transition-all duration-300 hover:border-white/20 hover:-translate-y-2 hover:bg-white/5 group">
+                    <i class="devicon-unity-plain colored text-5xl mb-4 block filter grayscale transition-all duration-300 group-hover:grayscale-0 group-hover:text-white group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]"></i>
+                    <span class="text-sm text-muted group-hover:text-white transition-colors">Unity</span>
+                </div>
+
+                <div class="skill-card hover-target bg-card-bg p-6 rounded-2xl text-center border border-white/5 transition-all duration-300 hover:border-white/20 hover:-translate-y-2 hover:bg-white/5 group">
+                    <i class="devicon-docker-plain colored text-5xl mb-4 block filter grayscale transition-all duration-300 group-hover:grayscale-0 group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]"></i>
+                    <span class="text-sm text-muted group-hover:text-white transition-colors">Docker</span>
+                </div>
+
+                <div class="skill-card hover-target bg-card-bg p-6 rounded-2xl text-center border border-white/5 transition-all duration-300 hover:border-white/20 hover:-translate-y-2 hover:bg-white/5 group">
+                    <i class="devicon-amazonwebservices-plain-wordmark colored text-5xl mb-4 block filter grayscale transition-all duration-300 group-hover:grayscale-0 group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]"></i>
+                    <span class="text-sm text-muted group-hover:text-white transition-colors">AWS</span>
+                </div>
+
+                <div class="skill-card hover-target bg-card-bg p-6 rounded-2xl text-center border border-white/5 transition-all duration-300 hover:border-white/20 hover:-translate-y-2 hover:bg-white/5 group">
+                    <i class="devicon-git-plain colored text-5xl mb-4 block filter grayscale transition-all duration-300 group-hover:grayscale-0 group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]"></i>
+                    <span class="text-sm text-muted group-hover:text-white transition-colors">Git</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="proyectos" class="section py-24 bg-black/30">
+        <div class="container mx-auto px-6 max-w-6xl relative overflow-hidden pb-12">
+            <h2 class="text-4xl font-bold mb-10 text-center reveal-item" data-i18n="section-projects">Proyectos Destacados</h2>
+
+            <div class="carousel-3d-wrapper reveal-item w-full relative max-w-4xl mx-auto">
+                <button class="nav-arrow prev hover-target absolute top-1/2 -translate-y-1/2 left-5 z-20 bg-black/50 border border-white/20 text-white text-3xl p-4 rounded-full backdrop-blur-sm transition-all hover:bg-accent hover:text-black hover:shadow-[0_0_20px_rgba(191,0,255,0.4)]" id="prevBtn">&#10094;</button>
+
+                <div class="carousel-track">
+                    
+                    <article class="project-card active" data-index="0">
+                        <div class="h-[180px] w-full" style="background: linear-gradient(135deg, #dd0031 0%, #1976d2 100%);"></div>
+                        <div class="p-6 flex flex-col h-[calc(100%-180px)]">
+                            <h3 class="text-xl font-bold mb-2 text-white" data-i18n="proj-1-title">CRM Empresarial Full Stack</h3>
+                            <p class="text-muted text-sm mb-4 flex-grow" data-i18n="proj-1-desc">Sistema de gestión empresarial completo.</p>
+                            <div class="mb-4">
+                                <span class="bg-white/10 px-3 py-1 rounded-full text-xs mr-2 text-accent font-semibold inline-block mb-1">Angular 20</span>
+                                <span class="bg-white/10 px-3 py-1 rounded-full text-xs mr-2 text-accent font-semibold inline-block mb-1">Spring Boot</span>
+                                <span class="bg-white/10 px-3 py-1 rounded-full text-xs mr-2 text-accent font-semibold inline-block mb-1">Java 21</span>
+                            </div>
+                            <a href="#" target="_blank" class="btn-github hover-target w-full flex items-center justify-center gap-2 py-2 border border-white/20 rounded-lg text-white text-sm font-semibold transition-all duration-300 hover:border-accent hover:bg-accent/10 hover:shadow-[0_0_15px_rgba(191,0,255,0.4)]">
+                                <i class="devicon-github-original text-lg"></i> <span data-i18n="btn-code">Ver Código</span>
+                            </a>
+                        </div>
+                    </article>
+
+                    <article class="project-card next" data-index="1">
+                        <div class="h-[180px] w-full" style="background: linear-gradient(135deg, #000000 0%, #a3a3a3 100%);"></div>
+                        <div class="p-6 flex flex-col h-[calc(100%-180px)]">
+                            <h3 class="text-xl font-bold mb-2 text-white" data-i18n="proj-2-title">Interacción Digital 3D</h3>
+                            <p class="text-muted text-sm mb-4 flex-grow" data-i18n="proj-2-desc">Ambientación tridimensional e interactiva.</p>
+                            <div class="mb-4">
+                                <span class="bg-white/10 px-3 py-1 rounded-full text-xs mr-2 text-accent font-semibold inline-block mb-1">Unity</span>
+                                <span class="bg-white/10 px-3 py-1 rounded-full text-xs mr-2 text-accent font-semibold inline-block mb-1">C#</span>
+                                <span class="bg-white/10 px-3 py-1 rounded-full text-xs mr-2 text-accent font-semibold inline-block mb-1">Blender</span>
+                            </div>
+                            <a href="#" target="_blank" class="btn-github hover-target w-full flex items-center justify-center gap-2 py-2 border border-white/20 rounded-lg text-white text-sm font-semibold transition-all duration-300 hover:border-accent hover:bg-accent/10 hover:shadow-[0_0_15px_rgba(191,0,255,0.4)]">
+                                <i class="devicon-github-original text-lg"></i> <span data-i18n="btn-code">Ver Código</span>
+                            </a>
+                        </div>
+                    </article>
+
+                    <article class="project-card prev" data-index="2">
+                        <div class="h-[180px] w-full" style="background: linear-gradient(135deg, #2496ED 0%, #232F3E 100%);"></div>
+                        <div class="p-6 flex flex-col h-[calc(100%-180px)]">
+                            <h3 class="text-xl font-bold mb-2 text-white" data-i18n="proj-3-title">API REST Cloud</h3>
+                            <p class="text-muted text-sm mb-4 flex-grow" data-i18n="proj-3-desc">Microservicios desplegados en AWS con Docker.</p>
+                            <div class="mb-4">
+                                <span class="bg-white/10 px-3 py-1 rounded-full text-xs mr-2 text-accent font-semibold inline-block mb-1">Docker</span>
+                                <span class="bg-white/10 px-3 py-1 rounded-full text-xs mr-2 text-accent font-semibold inline-block mb-1">AWS</span>
+                                <span class="bg-white/10 px-3 py-1 rounded-full text-xs mr-2 text-accent font-semibold inline-block mb-1">MySQL</span>
+                            </div>
+                            <a href="#" target="_blank" class="btn-github hover-target w-full flex items-center justify-center gap-2 py-2 border border-white/20 rounded-lg text-white text-sm font-semibold transition-all duration-300 hover:border-accent hover:bg-accent/10 hover:shadow-[0_0_15px_rgba(191,0,255,0.4)]">
+                                <i class="devicon-github-original text-lg"></i> <span data-i18n="btn-code">Ver Código</span>
+                            </a>
+                        </div>
+                    </article>
+
+                </div>
+
+                <button class="nav-arrow next hover-target absolute top-1/2 -translate-y-1/2 right-5 z-20 bg-black/50 border border-white/20 text-white text-3xl p-4 rounded-full backdrop-blur-sm transition-all hover:bg-accent hover:text-black hover:shadow-[0_0_20px_rgba(191,0,255,0.4)]" id="nextBtn">&#10095;</button>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contacto" class="py-24 text-center border-t border-white/10">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold mb-10" data-i18n="footer-title">Hablemos</h2>
+            
+            <a href="mailto:pabloronceropizarro@gmail.com" class="email-big hover-target block text-2xl md:text-4xl font-extrabold text-white my-10 transition-colors hover:text-accent hover:drop-shadow-[0_0_20px_rgba(191,0,255,0.4)] break-all">
+                pabloronceropizarro@gmail.com
+            </a>
+
+            <div class="socials mb-8 flex justify-center gap-8">
+                <a href="https://github.com/PabloRP06" target="_blank" class="hover-target text-lg text-muted transition-colors hover:text-accent">GitHub</a>
+                <a href="#" class="hover-target text-lg text-muted transition-colors hover:text-accent">LinkedIn</a>
+            </div>
+            
+            <p class="text-sm text-muted">© 2026 Pablo Roncero Pizarro.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
