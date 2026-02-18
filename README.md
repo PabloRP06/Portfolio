@@ -1,6 +1,6 @@
 # 🚀 Portfolio Profesional | Pablo Roncero Pizarro
 
-![Uploading Captura de pantalla 2026-02-03 093958.png…]()
+[![Uploading Captura de pantalla 2026-02-03 093958.png…](https://github.com/PabloRP06/Portfolio/blob/main/1.jpg)]
 
 
 
@@ -9,7 +9,7 @@ Este proyecto es mi **Frontend Showcase**, diseñado para demostrar mis competen
 
 Es una aplicación web interactiva que presenta mi perfil, mi stack tecnológico y mis proyectos destacados. El objetivo principal fue crear una experiencia de usuario (UX) inmersiva y moderna, priorizando el rendimiento y el diseño visual impactante.
 
-🔗 **[VER DEMO ONLINE EN VERCEL](AQUÍ_PEGA_TU_LINK_DE_VERCEL)**
+🔗 **[VER DEMO ONLINE EN VERCEL]((https://portfolioprp.vercel.app/))**
 
 ## 🛠️ Stack Tecnológico
 El proyecto ha sido construido utilizando tecnologías modernas y optimizadas:
@@ -25,7 +25,9 @@ El proyecto ha sido construido utilizando tecnologías modernas y optimizadas:
 
 | Home & Efecto Estrellas | Carrusel 3D Interactivo |
 |:---:|:---:|
-| ![Home](LINK_IMAGEN_1) | ![Carrusel](LINK_IMAGEN_2) |
+| [![Home]([LINK_IMAGEN_1](https://github.com/PabloRP06/Portfolio/blob/main/2.png)) | 
+| [![Tech Stack]([LINK_IMAGEN_1](https://github.com/PabloRP06/Portfolio/blob/main/3.png)) | 
+| [![Carrusel]([LINK_IMAGEN_1](https://github.com/PabloRP06/Portfolio/blob/main/4.png)) | 
 | *Vista principal con animaciones* | *Navegación de proyectos en 3D* |
 
 > *Nota: Las capturas muestran el diseño adaptativo y el tema oscuro espacial.*
@@ -48,4 +50,4 @@ Si deseas ejecutar este proyecto en tu máquina:
 
 ---
 Developed by **Pablo Roncero Pizarro** | 2026
-[LinkedIn](TU_LINKEDIN) | [Email](mailto:pabloronceropizarro@gmail.com)
+[LinkedIn]((https://www.linkedin.com/in/pablo-roncero-737334332/)) | [Email](mailto:pabloronceropizarro@gmail.com)
