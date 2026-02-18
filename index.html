@@ -311,22 +311,37 @@
         </div>
     </section>
 
-    <footer id="contacto" class="py-24 text-center border-t border-white/10">
-        <div class="container mx-auto px-6">
+    <section id="contacto" class="py-24 bg-black/50 border-t border-white/10">
+        <div class="container mx-auto px-6 max-w-2xl reveal-item text-center">
             <h2 class="text-4xl font-bold mb-10" data-i18n="footer-title">Hablemos</h2>
-            
-            <a href="mailto:pabloronceropizarro@gmail.com" class="email-big hover-target block text-2xl md:text-4xl font-extrabold text-white my-10 transition-colors hover:text-accent hover:drop-shadow-[0_0_20px_rgba(191,0,255,0.4)] break-all">
-                pabloronceropizarro@gmail.com
-            </a>
-
-            <div class="socials mb-8 flex justify-center gap-8">
-                <a href="https://github.com/PabloRP06" target="_blank" class="hover-target text-lg text-muted transition-colors hover:text-accent">GitHub</a>
-                <a href="https://www.linkedin.com/in/pablo-roncero-737334332/" class="hover-target text-lg text-muted transition-colors hover:text-accent">LinkedIn</a>
+            <form action="https://formspree.io/f/xwvnqnew" method="POST" class="space-y-6 bg-card-bg p-8 rounded-3xl border border-white/10 text-left">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="text-xs font-semibold uppercase text-accent mb-2 block ml-1" data-i18n="form-name">Nombre</label>
+                        <input type="text" name="name" required placeholder="Tu nombre" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-accent transition-all hover-target">
+                    </div>
+                    <div>
+                        <label class="text-xs font-semibold uppercase text-accent mb-2 block ml-1" data-i18n="form-email">Correo</label>
+                        <input type="email" name="email" required placeholder="tu@email.com" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-accent transition-all hover-target">
+                    </div>
+                </div>
+                <div>
+                    <label class="text-xs font-semibold uppercase text-accent mb-2 block ml-1" data-i18n="form-msg">Mensaje</label>
+                    <textarea name="message" rows="4" required placeholder="¿En qué puedo ayudarte?" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-accent transition-all hover-target resize-none"></textarea>
+                </div>
+                <button type="submit" class="w-full hover-target py-4 rounded-xl bg-accent text-white font-bold transition-all hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(191,0,255,0.4)]" data-i18n="form-btn">
+                    Enviar Mensaje
+                </button>
+            </form>
+            <div class="mt-12">
+                <div class="flex justify-center gap-8 mb-8">
+                    <a href="https://github.com/PabloRP06" target="_blank" class="hover-target text-muted hover:text-accent transition-colors">GitHub</a>
+                    <a href="https://www.linkedin.com/in/pablo-roncero-737334332/" target="_blank" class="hover-target text-muted hover:text-accent transition-colors">LinkedIn</a>
+                </div>
+                <p class="text-sm text-muted">© 2026 Pablo Roncero Pizarro.</p>
             </div>
-            
-            <p class="text-sm text-muted">© 2026 Pablo Roncero Pizarro.</p>
         </div>
-    </footer>
+    </section>
 
     <script src="script.js"></script>
 </body>
